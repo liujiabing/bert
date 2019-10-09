@@ -1,9 +1,11 @@
-export DATA_DIR=/data/duobi/bert-session-cls/data
-export BERT_BASE_DIR=/data/duobi/bert-session-cls/chinese_L-12_H-768_A-12
-export TRAINED_CLASSIFIER=/data/duobi/bert-session-cls/ckpt_all_wo_cs/model.ckpt-39304
+DIR=/block1/duobi
+export DATA_DIR=$DIR/bert-session-cls/data
+export BERT_BASE_DIR=$DIR/bert-session-cls/chinese_L-12_H-768_A-12
+export TRAINED_CLASSIFIER=$DIR/bert-session-cls/session_output/model.ckpt-50000
 
 #CUDA_VISIBLE_DEVICES=1,3 
-python run_classifier.py --task_name=session --do_predict=true --data_dir=$DATA_DIR --vocab_file=$BERT_BASE_DIR/vocab.txt --bert_config_file=$BERT_BASE_DIR/bert_config.json --init_checkpoint=$TRAINED_CLASSIFIER --max_seq_length=200 --output_dir=/data/duobi/bert-session-cls/test_output
+rm -r test_output
+python run_classifier.py --task_name=session --do_predict=true --data_dir=$DATA_DIR --vocab_file=$BERT_BASE_DIR/vocab.txt --bert_config_file=$BERT_BASE_DIR/bert_config.json --init_checkpoint=$TRAINED_CLASSIFIER --max_seq_length=200 --output_dir=$DIR/bert-session-cls/test_output
 cat test_output/test_results.tsv | python postprocess.py > tmp
 paste data/test.tsv tmp > tmpp
 #cat tmpp | awk -F'\t' '{if($4==$6)print $6}' | wc -l

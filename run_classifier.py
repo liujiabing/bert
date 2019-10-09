@@ -271,6 +271,7 @@ def convert_single_example(ex_index, example, label_list, max_seq_length,
     # Account for [CLS] and [SEP] with "- 2"
     if len(tokens_a) > max_seq_length - 2:
       tokens_a = tokens_a[0:(max_seq_length - 2)]
+      #tokens_a = tokens_a[(len(tokens_a) - max_seq_length + 2):]
 
   # The convention in BERT is:
   # (a) For sequence pairs:
